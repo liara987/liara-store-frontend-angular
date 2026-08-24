@@ -42,9 +42,21 @@ const POLL_INTERVAL_MS = 5000;
             }
             <div>
               <h2>Pague com PIX</h2>
-              <p class="muted">
-                Escaneie o QR Code ou use o código copia e cola. A confirmação é automática.
-              </p>
+              @if (current.payment.pix?.amountIncluded === false) {
+                <p class="amount">
+                  Valor a pagar: <strong>{{ current.total | cents }}</strong>
+                </p>
+                <p class="muted">
+                  Escaneie o QR Code ou use o código copia e cola e <strong>digite o valor
+                  acima</strong> no app do banco. Depois é só mostrar o comprovante para a
+                  loja confirmar.
+                </p>
+              } @else {
+                <p class="muted">
+                  Escaneie o QR Code ou use o código copia e cola. Depois mostre o
+                  comprovante para a loja confirmar o pagamento.
+                </p>
+              }
               @if (current.payment.expiresAt) {
                 <p class="muted">
                   Expira em {{ current.payment.expiresAt | date: 'dd/MM/yyyy HH:mm' }}
@@ -116,6 +128,10 @@ const POLL_INTERVAL_MS = 5000;
       .pix {
         grid-template-columns: 1fr;
       }
+    }
+    .amount {
+      font-size: 1.05rem;
+      margin: 0 0 0.5rem;
     }
     .pix img {
       width: 100%;

@@ -16,7 +16,4 @@ export class OrderService {
     return this.http.get<Order>(`${environment.apiUrl}/orders/${id}`);
   }
 
-  refreshPayment(id: string): Observable<Order> {
-    return this.http.post<Order>(`${environment.apiUrl}/orders/${id}/refresh-payment`, {});
-  }
 }
