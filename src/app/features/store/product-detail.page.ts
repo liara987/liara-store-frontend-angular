@@ -17,7 +17,11 @@ import { CentsPipe } from '../../shared/cents.pipe';
       <p class="error">{{ error() }}</p>
     } @else if (product(); as item) {
       <div class="card detail">
-        <img [src]="item.images[0]?.url" [alt]="item.images[0]?.alt ?? item.name" />
+        @if (item.images[0]; as image) {
+          <img [src]="image.url" [alt]="image.alt ?? item.name" />
+        } @else {
+          <div class="placeholder" aria-hidden="true">sem imagem</div>
+        }
         <div>
           <span class="badge">{{ item.category }}</span>
           <h1>{{ item.name }}</h1>
@@ -67,12 +71,19 @@ import { CentsPipe } from '../../shared/cents.pipe';
         grid-template-columns: 1fr;
       }
     }
-    .detail img {
+    .detail img,
+    .detail .placeholder {
       width: 100%;
       aspect-ratio: 1;
       object-fit: cover;
       border-radius: 12px;
       background: #f4eae6;
+    }
+    .detail .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
     }
     h1 {
       margin: 0.5rem 0 0.25rem;

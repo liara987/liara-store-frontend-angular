@@ -46,7 +46,11 @@ import { CentsPipe } from '../../shared/cents.pipe';
         @for (product of products(); track product.id) {
           <article class="card product">
             <a [routerLink]="['/produto', product.slug]">
-              <img [src]="product.images[0]?.url" [alt]="product.images[0]?.alt ?? product.name" />
+              @if (product.images[0]; as image) {
+                <img [src]="image.url" [alt]="image.alt ?? product.name" />
+              } @else {
+                <div class="placeholder" aria-hidden="true">sem imagem</div>
+              }
               <h2>{{ product.name }}</h2>
             </a>
             <p class="price">{{ product.price | cents }}</p>
@@ -86,12 +90,20 @@ import { CentsPipe } from '../../shared/cents.pipe';
       grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
       gap: 1rem;
     }
-    .product img {
+    .product img,
+    .product .placeholder {
       width: 100%;
       aspect-ratio: 1;
       object-fit: cover;
       border-radius: 10px;
       background: #f4eae6;
+    }
+    .product .placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--muted);
+      font-size: 0.85rem;
     }
     .product h2 {
       font-size: 1rem;
