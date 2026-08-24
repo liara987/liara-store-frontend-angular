@@ -49,6 +49,10 @@ import { CentsPipe } from '../../shared/cents.pipe';
       </form>
     }
 
+    @if (actionError()) {
+      <p class="error">{{ actionError() }}</p>
+    }
+
     @if (loading()) {
       <p class="muted">Carregando produtos…</p>
     } @else if (error()) {
@@ -148,6 +152,7 @@ export class ProductsPage {
   protected readonly products = signal<Product[]>([]);
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
+  protected readonly actionError = signal<string | null>(null);
   protected readonly formError = signal<string | null>(null);
   protected readonly showForm = signal(false);
 
@@ -193,9 +198,10 @@ export class ProductsPage {
     const quantity = Number((event.target as HTMLInputElement).value);
     if (!Number.isFinite(quantity) || quantity < 0) return;
 
+    this.actionError.set(null);
     this.admin.updateStock(product.id, 'set', quantity).subscribe({
       next: () => this.load(),
-      error: () => this.error.set('Não foi possível atualizar o estoque.'),
+      error: () => this.actionError.set('Não foi possível atualizar o estoque.'),
     });
   }
 
@@ -203,15 +209,19 @@ export class ProductsPage {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
 
+    this.actionError.set(null);
     this.admin.uploadImages(product.id, input.files).subscribe({
       next: () => {
         input.value = '';
         this.load();
       },
-      error: (response: HttpErrorResponse) =>
-        this.error.set(
-          response.error?.error?.message ?? 'Falha no upload. Verifique a configuração do Cloudinary.',
-        ),
+      error: (response: HttpErrorResponse) => {
+        input.value = '';
+        this.actionError.set(
+          response.error?.error?.message ??
+            'Falha no upload. Verifique a configuração do Cloudinary.',
+        );
+      },
     });
   }
 
@@ -225,6 +235,7 @@ export class ProductsPage {
 
   private load(): void {
     this.loading.set(true);
+    this.error.set(null);
     this.admin.products().subscribe({
       next: (response) => {
         this.products.set(response.items);

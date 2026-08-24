@@ -30,7 +30,7 @@ const POLL_INTERVAL_MS = 5000;
             <h2>Pagamento confirmado!</h2>
             <p class="muted">
               Obrigada pela compra
-              @if (current.customer.email) {
+              @if (current.thankYouEmailSent && current.customer.email) {
                 — enviamos um e-mail de agradecimento para {{ current.customer.email }}
               }
             </p>

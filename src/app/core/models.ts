@@ -45,6 +45,7 @@ export interface Order {
   total: number;
   createdAt: string;
   paidAt?: string;
+  thankYouEmailSent?: boolean;
   payment: {
     method: string;
     status: PaymentStatus;
