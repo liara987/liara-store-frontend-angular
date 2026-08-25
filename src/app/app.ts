@@ -25,7 +25,7 @@ import { CartService } from './core/cart.service';
     </main>
 
     <footer class="container footer muted">
-      Liara Store — bottons e produtos personalizados ·
+      Liara Store — acessórios de programação ·
       <a routerLink="/admin">Área administrativa</a>
     </footer>
   `,
