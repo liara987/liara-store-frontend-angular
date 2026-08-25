@@ -1,6 +1,6 @@
 # Liara Store — Frontend (Angular)
 
-Frontend da **Liara Store**: loja de bottons e produtos personalizados para venda presencial, com pagamento por PIX e área administrativa protegida.
+Frontend da **Liara Store**: loja de acessórios de programação para venda presencial, com pagamento por PIX e área administrativa protegida.
 
 Este repositório é a camada **Frontend Angular** da arquitetura:
 
