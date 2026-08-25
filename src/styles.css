@@ -3,8 +3,8 @@
   --surface: #ffffff;
   --ink: #2b2b2b;
   --muted: #6f6a68;
-  --brand: #c2547a;
-  --brand-dark: #a13f61;
+  --brand: #bca3fc;
+  --brand-dark: #9972fd;
   --border: #ecdfd9;
   --ok: #2f7d55;
   --warn: #b8860b;
@@ -21,7 +21,11 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  font-family:
+    'Segoe UI',
+    system-ui,
+    -apple-system,
+    sans-serif;
   line-height: 1.5;
 }
 
