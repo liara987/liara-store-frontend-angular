@@ -32,8 +32,12 @@ import { AuthService } from '../../core/auth.service';
     nav {
       display: flex;
       gap: 1rem;
+      flex-wrap: wrap;
     }
     nav a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
       font-weight: 600;
       padding-bottom: 0.2rem;
       border-bottom: 2px solid transparent;

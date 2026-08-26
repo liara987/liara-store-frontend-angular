@@ -39,12 +39,25 @@ a {
   margin: 0 auto;
 }
 
+@media (max-width: 480px) {
+  .container {
+    width: min(1100px, 100% - 1.5rem);
+  }
+}
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 1.25rem;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
 }
 
 .btn {
@@ -55,6 +68,7 @@ a {
   border: 1px solid transparent;
   border-radius: 999px;
   padding: 0.6rem 1.2rem;
+  min-height: 44px;
   font: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -84,6 +98,7 @@ a {
 
 .btn.small {
   padding: 0.35rem 0.8rem;
+  min-height: 38px;
   font-size: 0.85rem;
 }
 
@@ -92,11 +107,77 @@ select,
 textarea {
   width: 100%;
   padding: 0.6rem 0.75rem;
+  min-height: 44px;
   border: 1px solid var(--border);
   border-radius: 10px;
   font: inherit;
+  font-size: 16px;
   background: #fff;
   color: var(--ink);
+}
+
+textarea {
+  min-height: auto;
+}
+
+/* Tabelas em telas pequenas viram uma lista de "cards": cada linha some a estrutura
+   de colunas e passa a mostrar rótulo + valor empilhados, ao invés de espremer texto. */
+@media (max-width: 640px) {
+  table.stack {
+    border: none;
+  }
+  table.stack thead {
+    display: none;
+  }
+  table.stack,
+  table.stack tbody,
+  table.stack tr,
+  table.stack td {
+    display: block;
+    width: 100%;
+  }
+  table.stack tr {
+    padding: 0.75rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  table.stack tr:last-child {
+    border-bottom: none;
+  }
+  table.stack td {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.3rem 0;
+    border-bottom: none;
+    text-align: right;
+  }
+  table.stack td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--muted);
+    text-align: left;
+    flex-shrink: 0;
+  }
+  table.stack td:empty {
+    display: none;
+  }
+  table.stack .actions {
+    justify-content: flex-end;
+  }
+}
+
+/* Tabelas que continuam tabulares (poucas colunas) recebem rolagem horizontal
+   suave em vez de espremer o conteúdo. */
+.table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.table-wrap table {
+  min-width: 480px;
 }
 
 label {

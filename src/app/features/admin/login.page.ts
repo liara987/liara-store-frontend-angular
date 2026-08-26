@@ -38,6 +38,11 @@ import { AuthService } from '../../core/auth.service';
       max-width: 380px;
       margin: 3rem auto;
     }
+    @media (max-width: 480px) {
+      .login {
+        margin: 1.5rem auto;
+      }
+    }
     h1 {
       font-size: 1.2rem;
       margin-top: 0;

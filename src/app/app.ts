@@ -38,15 +38,25 @@ import { CartService } from './core/cart.service';
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 0.75rem;
       padding: 0.9rem 0;
     }
     .logo {
       font-size: 1.25rem;
       font-weight: 800;
       color: var(--brand);
+      white-space: nowrap;
     }
     .cart-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
       font-weight: 600;
+    }
+    @media (max-width: 400px) {
+      .logo {
+        font-size: 1.05rem;
+      }
     }
     .count {
       display: inline-block;

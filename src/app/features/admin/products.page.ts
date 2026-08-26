@@ -59,7 +59,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
       <p class="error">{{ error() }}</p>
     } @else {
       <div class="card">
-        <table>
+        <table class="stack">
           <thead>
             <tr>
               <th>Produto</th>
@@ -72,12 +72,12 @@ import { CentsPipe } from '../../shared/cents.pipe';
           <tbody>
             @for (product of products(); track product.id) {
               <tr>
-                <td>
+                <td data-label="Produto">
                   {{ product.name }}
                   <span class="muted block">{{ product.category }}</span>
                 </td>
-                <td>{{ product.price | cents }}</td>
-                <td>
+                <td data-label="Preço">{{ product.price | cents }}</td>
+                <td data-label="Estoque">
                   <input
                     class="stock"
                     type="number"
@@ -86,15 +86,21 @@ import { CentsPipe } from '../../shared/cents.pipe';
                     (change)="setStock(product, $event)"
                   />
                 </td>
-                <td>
+                <td data-label="Status">
                   <span class="badge" [class.paid]="product.active">
                     {{ product.active ? 'Ativo' : 'Inativo' }}
                   </span>
                 </td>
-                <td class="actions">
+                <td data-label="Ações" class="actions">
                   <label class="btn ghost small upload">
                     Imagem
-                    <input type="file" accept="image/*" multiple (change)="upload(product, $event)" hidden />
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      (change)="upload(product, $event)"
+                      hidden
+                    />
                   </label>
                   @if (product.active) {
                     <button class="btn ghost small" (click)="deactivate(product)">Desativar</button>
@@ -114,12 +120,18 @@ import { CentsPipe } from '../../shared/cents.pipe';
       display: flex;
       justify-content: space-between;
       align-items: center;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
     }
     h1 {
       font-size: 1.3rem;
     }
     .form {
       margin-bottom: 1rem;
+    }
+    .field {
+      margin-top: 1rem;
     }
     .row {
       display: grid;

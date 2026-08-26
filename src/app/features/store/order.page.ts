@@ -74,7 +74,7 @@ const POLL_INTERVAL_MS = 5000;
           <p class="muted">Este pedido foi {{ statusLabel(current.status).toLowerCase() }}.</p>
         }
 
-        <table>
+        <table class="items">
           <tbody>
             @for (item of current.items; track item.productId) {
               <tr>
@@ -98,7 +98,14 @@ const POLL_INTERVAL_MS = 5000;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      gap: 1rem;
+      flex-wrap: wrap;
+      gap: 0.75rem 1rem;
+    }
+    .items td {
+      word-break: break-word;
+    }
+    .items td:first-child {
+      width: 100%;
     }
     h1 {
       font-size: 1.3rem;

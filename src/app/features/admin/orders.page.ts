@@ -41,7 +41,7 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
       <p class="muted">Nenhum pedido encontrado.</p>
     } @else {
       <div class="card">
-        <table>
+        <table class="stack">
           <thead>
             <tr>
               <th>Pedido</th>
@@ -55,24 +55,26 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
           <tbody>
             @for (order of orders(); track order.id) {
               <tr>
-                <td>
+                <td data-label="Pedido">
                   #{{ order.id.slice(-6) }}
                   <span class="muted block">{{ order.createdAt | date: 'dd/MM HH:mm' }}</span>
                 </td>
-                <td>
+                <td data-label="Cliente">
                   {{ order.customer.name }}
                   @if (order.customer.email) {
                     <span class="muted block">{{ order.customer.email }}</span>
                   }
                 </td>
-                <td>
+                <td data-label="Itens">
                   @for (item of order.items; track item.productId) {
                     <span class="block">{{ item.quantity }}× {{ item.name }}</span>
                   }
                 </td>
-                <td>{{ order.total | cents }}</td>
-                <td><span class="badge" [class]="order.status">{{ label(order.status) }}</span></td>
-                <td class="actions">
+                <td data-label="Total">{{ order.total | cents }}</td>
+                <td data-label="Status">
+                  <span class="badge" [class]="order.status">{{ label(order.status) }}</span>
+                </td>
+                <td data-label="Ações" class="actions">
                   @if (order.status === 'pending' || order.status === 'processing') {
                     <button class="btn small" (click)="confirm(order)">Confirmar pagamento</button>
                     <button class="btn ghost small" (click)="cancel(order)">Cancelar</button>
@@ -107,6 +109,21 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
     .block {
       display: block;
       font-size: 0.8rem;
+    }
+    @media (max-width: 640px) {
+      table.stack td[data-label='Itens'] {
+        display: block;
+      }
+      table.stack td[data-label='Itens']::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: 600;
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        color: var(--muted);
+        margin-bottom: 0.25rem;
+      }
     }
   `,
 })

@@ -14,7 +14,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
       <a routerLink="/" class="btn">Ver produtos</a>
     } @else {
       <div class="card">
-        <table>
+        <table class="stack">
           <thead>
             <tr>
               <th>Produto</th>
@@ -27,9 +27,9 @@ import { CentsPipe } from '../../shared/cents.pipe';
           <tbody>
             @for (item of cart.items(); track item.productId) {
               <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.price | cents }}</td>
-                <td>
+                <td data-label="Produto">{{ item.name }}</td>
+                <td data-label="Preço">{{ item.price | cents }}</td>
+                <td data-label="Qtd.">
                   <input
                     type="number"
                     min="1"
@@ -38,7 +38,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
                     (input)="changeQuantity(item.productId, $event)"
                   />
                 </td>
-                <td>{{ item.price * item.quantity | cents }}</td>
+                <td data-label="Subtotal">{{ item.price * item.quantity | cents }}</td>
                 <td>
                   <button class="btn ghost small" (click)="cart.remove(item.productId)">
                     Remover
@@ -84,6 +84,21 @@ import { CentsPipe } from '../../shared/cents.pipe';
       justify-content: flex-end;
       gap: 0.6rem;
       margin-top: 1rem;
+    }
+    @media (max-width: 640px) {
+      input {
+        width: 5.5rem;
+      }
+      .footer-row {
+        flex-direction: column;
+        gap: 0.2rem;
+      }
+      .actions {
+        flex-direction: column-reverse;
+      }
+      .actions .btn {
+        width: 100%;
+      }
     }
   `,
 })
