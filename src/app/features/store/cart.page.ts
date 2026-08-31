@@ -14,7 +14,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
       <a routerLink="/" class="btn">Ver produtos</a>
     } @else {
       <div class="card">
-        <table>
+        <table class="responsive-table">
           <thead>
             <tr>
               <th>Produto</th>
@@ -27,21 +27,23 @@ import { CentsPipe } from '../../shared/cents.pipe';
           <tbody>
             @for (item of cart.items(); track item.productId) {
               <tr>
-                <td>{{ item.name }}</td>
-                <td>{{ item.price | cents }}</td>
-                <td>
+                <td data-label="Produto">{{ item.name }}</td>
+                <td data-label="Preço">{{ item.price | cents }}</td>
+                <td data-label="Qtd.">
                   <input
                     type="number"
+                    inputmode="numeric"
                     min="1"
                     [max]="item.stock"
                     [value]="item.quantity"
+                    [attr.aria-label]="'Quantidade de ' + item.name"
                     (input)="changeQuantity(item.productId, $event)"
                   />
                 </td>
-                <td>{{ item.price * item.quantity | cents }}</td>
+                <td data-label="Subtotal">{{ item.price * item.quantity | cents }}</td>
                 <td>
-                  <button class="btn ghost small" (click)="cart.remove(item.productId)">
-                    Remover
+                  <button class="btn ghost small remove" (click)="cart.remove(item.productId)">
+                    Remover<span class="sr-only"> {{ item.name }}</span>
                   </button>
                 </td>
               </tr>
@@ -64,26 +66,35 @@ import { CentsPipe } from '../../shared/cents.pipe';
   `,
   styles: `
     h1 {
-      font-size: 1.4rem;
+      font-size: var(--text-title);
     }
     input {
-      width: 4.5rem;
+      width: 5.5rem;
     }
     .footer-row {
       display: flex;
       justify-content: space-between;
+      gap: var(--gap-tap);
       padding-top: 1rem;
-      font-size: 1.1rem;
+      font-size: var(--text-lead);
     }
     .note {
-      font-size: 0.8rem;
       margin: 0.25rem 0 0;
     }
     .actions {
       display: flex;
+      flex-wrap: wrap;
       justify-content: flex-end;
-      gap: 0.6rem;
+      gap: var(--gap-tap);
       margin-top: 1rem;
+    }
+    @media (max-width: 720px) {
+      .remove {
+        width: 100%;
+      }
+      .actions .btn {
+        flex: 1 1 100%;
+      }
     }
   `,
 })
