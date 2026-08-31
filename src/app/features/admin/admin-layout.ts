@@ -7,7 +7,7 @@ import { AuthService } from '../../core/auth.service';
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   template: `
     <div class="admin-head">
-      <nav>
+      <nav aria-label="Navegação administrativa">
         <a routerLink="dashboard" routerLinkActive="active">Dashboard</a>
         <a routerLink="produtos" routerLinkActive="active">Produtos</a>
         <a routerLink="pedidos" routerLinkActive="active">Pedidos</a>
@@ -31,26 +31,26 @@ import { AuthService } from '../../core/auth.service';
     }
     nav {
       display: flex;
-      gap: 1rem;
       flex-wrap: wrap;
+      gap: var(--gap-tap);
     }
     nav a {
       display: inline-flex;
       align-items: center;
-      min-height: 44px;
+      min-height: var(--tap);
+      padding: 0 0.5rem;
       font-weight: 600;
-      padding-bottom: 0.2rem;
-      border-bottom: 2px solid transparent;
+      border-bottom: 3px solid transparent;
     }
     nav a.active {
-      color: var(--brand);
+      color: var(--brand-dark);
       border-color: var(--brand);
     }
     .who {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 0.6rem;
-      font-size: 0.9rem;
+      gap: var(--gap-tap);
     }
   `,
 })

@@ -18,14 +18,20 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
   template: `
     <h1>Pedidos</h1>
 
-    <div class="filters">
-      <button class="btn ghost small" [class.active]="status() === null" (click)="filter(null)">
+    <div class="filters" role="group" aria-label="Filtrar pedidos por status">
+      <button
+        class="btn ghost small"
+        [class.active]="status() === null"
+        [attr.aria-pressed]="status() === null"
+        (click)="filter(null)"
+      >
         Todos
       </button>
       @for (option of statuses; track option) {
         <button
           class="btn ghost small"
           [class.active]="status() === option"
+          [attr.aria-pressed]="status() === option"
           (click)="filter(option)"
         >
           {{ label(option) }}
@@ -41,7 +47,7 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
       <p class="muted">Nenhum pedido encontrado.</p>
     } @else {
       <div class="card">
-        <table class="stack">
+        <table class="responsive-table">
           <thead>
             <tr>
               <th>Pedido</th>
@@ -56,28 +62,40 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
             @for (order of orders(); track order.id) {
               <tr>
                 <td data-label="Pedido">
-                  #{{ order.id.slice(-6) }}
-                  <span class="muted block">{{ order.createdAt | date: 'dd/MM HH:mm' }}</span>
+                  <span>
+                    #{{ order.id.slice(-6) }}
+                    <span class="muted block">{{ order.createdAt | date: 'dd/MM HH:mm' }}</span>
+                  </span>
                 </td>
                 <td data-label="Cliente">
-                  {{ order.customer.name }}
-                  @if (order.customer.email) {
-                    <span class="muted block">{{ order.customer.email }}</span>
-                  }
+                  <span>
+                    {{ order.customer.name }}
+                    @if (order.customer.email) {
+                      <span class="muted block">{{ order.customer.email }}</span>
+                    }
+                  </span>
                 </td>
                 <td data-label="Itens">
-                  @for (item of order.items; track item.productId) {
-                    <span class="block">{{ item.quantity }}× {{ item.name }}</span>
-                  }
+                  <span>
+                    @for (item of order.items; track item.productId) {
+                      <span class="block">{{ item.quantity }}× {{ item.name }}</span>
+                    }
+                  </span>
                 </td>
                 <td data-label="Total">{{ order.total | cents }}</td>
                 <td data-label="Status">
                   <span class="badge" [class]="order.status">{{ label(order.status) }}</span>
                 </td>
-                <td data-label="Ações" class="actions">
+                <td class="actions" data-label="Ações">
                   @if (order.status === 'pending' || order.status === 'processing') {
-                    <button class="btn small" (click)="confirm(order)">Confirmar pagamento</button>
-                    <button class="btn ghost small" (click)="cancel(order)">Cancelar</button>
+                    <button class="btn small" (click)="confirm(order)">
+                      Confirmar pagamento<span class="sr-only">
+                        do pedido de {{ order.customer.name }}</span
+                      >
+                    </button>
+                    <button class="btn ghost small" (click)="cancel(order)">
+                      Cancelar<span class="sr-only"> pedido de {{ order.customer.name }}</span>
+                    </button>
                   }
                 </td>
               </tr>
@@ -89,39 +107,39 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
   `,
   styles: `
     h1 {
-      font-size: 1.3rem;
+      font-size: var(--text-title);
     }
     .filters {
       display: flex;
-      gap: 0.5rem;
+      gap: var(--gap-tap);
       flex-wrap: wrap;
       margin-bottom: 1rem;
     }
     .filters .active {
       border-color: var(--brand);
-      color: var(--brand);
+      background: var(--brand-soft);
+      color: var(--brand-dark);
+      font-weight: 700;
     }
     .actions {
       display: flex;
-      gap: 0.4rem;
+      gap: var(--gap-tap);
       flex-wrap: wrap;
     }
     .block {
       display: block;
-      font-size: 0.8rem;
     }
-    @media (max-width: 640px) {
-      table.stack td[data-label='Itens'] {
-        display: block;
+    @media (max-width: 900px) {
+      .actions {
+        justify-content: flex-end;
       }
-      table.stack td[data-label='Itens']::before {
-        content: attr(data-label);
+      /* A lista de itens é longa demais para dividir a linha com o rótulo. */
+      .responsive-table td[data-label='Itens'] {
         display: block;
-        font-weight: 600;
-        font-size: 0.78rem;
-        text-transform: uppercase;
-        letter-spacing: 0.03em;
-        color: var(--muted);
+        text-align: left;
+      }
+      .responsive-table td[data-label='Itens']::before {
+        display: block;
         margin-bottom: 0.25rem;
       }
     }

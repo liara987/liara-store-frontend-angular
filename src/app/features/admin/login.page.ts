@@ -13,7 +13,16 @@ import { AuthService } from '../../core/auth.service';
 
       <div class="field">
         <label for="email">E-mail</label>
-        <input id="email" type="email" formControlName="email" autocomplete="username" />
+        <input
+          id="email"
+          type="email"
+          inputmode="email"
+          formControlName="email"
+          autocomplete="username"
+          autocapitalize="none"
+          spellcheck="false"
+          enterkeyhint="next"
+        />
       </div>
 
       <div class="field">
@@ -23,11 +32,12 @@ import { AuthService } from '../../core/auth.service';
           type="password"
           formControlName="password"
           autocomplete="current-password"
+          enterkeyhint="go"
         />
       </div>
 
       @if (error()) {
-        <p class="error">{{ error() }}</p>
+        <p class="error" role="alert">{{ error() }}</p>
       }
 
       <button class="btn submit" type="submit" [disabled]="submitting()">Entrar</button>
@@ -44,7 +54,7 @@ import { AuthService } from '../../core/auth.service';
       }
     }
     h1 {
-      font-size: 1.2rem;
+      font-size: var(--text-title);
       margin-top: 0;
     }
     .submit {

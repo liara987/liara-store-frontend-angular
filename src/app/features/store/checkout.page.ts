@@ -17,33 +17,53 @@ import { CentsPipe } from '../../shared/cents.pipe';
       <a routerLink="/" class="btn">Ver produtos</a>
     } @else {
       <div class="layout">
+        <!-- Resumo antes do formulário no mobile (ordem via CSS grid). -->
         <form class="card" [formGroup]="form" (ngSubmit)="submit()">
           <div class="field">
             <label for="name">Nome *</label>
-            <input id="name" formControlName="name" autocomplete="name" />
+            <input
+              id="name"
+              formControlName="name"
+              autocomplete="name"
+              autocapitalize="words"
+              enterkeyhint="next"
+              [attr.aria-invalid]="form.controls.name.touched && form.controls.name.invalid"
+              aria-describedby="name-error"
+            />
             @if (form.controls.name.touched && form.controls.name.invalid) {
-              <span class="error">Informe seu nome.</span>
+              <span class="error" id="name-error" role="alert">Informe seu nome.</span>
             }
           </div>
 
           <div class="field">
             <label for="email">E-mail (opcional)</label>
-            <input id="email" type="email" formControlName="email" autocomplete="email" />
+            <input
+              id="email"
+              type="email"
+              inputmode="email"
+              formControlName="email"
+              autocomplete="email"
+              autocapitalize="none"
+              spellcheck="false"
+              enterkeyhint="done"
+              [attr.aria-invalid]="form.controls.email.touched && form.controls.email.invalid"
+              aria-describedby="email-error email-hint"
+            />
             @if (form.controls.email.touched && form.controls.email.invalid) {
-              <span class="error">E-mail inválido.</span>
+              <span class="error" id="email-error" role="alert">E-mail inválido.</span>
             }
-            <p class="muted hint">
+            <p class="muted hint" id="email-hint">
               Se informado, enviamos um e-mail de agradecimento após a confirmação do pagamento.
             </p>
           </div>
 
           <div class="field">
-            <label>Pagamento</label>
+            <span class="label">Pagamento</span>
             <div class="pix">PIX</div>
           </div>
 
           @if (error()) {
-            <p class="error">{{ error() }}</p>
+            <p class="error" role="alert">{{ error() }}</p>
           }
 
           <button class="btn submit" type="submit" [disabled]="submitting()">
@@ -69,7 +89,12 @@ import { CentsPipe } from '../../shared/cents.pipe';
   `,
   styles: `
     h1 {
-      font-size: 1.4rem;
+      font-size: var(--text-title);
+    }
+    .label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
     }
     .layout {
       display: grid;
@@ -81,9 +106,11 @@ import { CentsPipe } from '../../shared/cents.pipe';
       .layout {
         grid-template-columns: 1fr;
       }
+      .layout aside {
+        order: -1;
+      }
     }
     .hint {
-      font-size: 0.8rem;
       margin: 0.3rem 0 0;
     }
     .pix {
@@ -98,7 +125,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
       margin-top: 1.2rem;
     }
     h2 {
-      font-size: 1.05rem;
+      font-size: var(--text-lead);
       margin-top: 0;
     }
     .line {
@@ -106,7 +133,6 @@ import { CentsPipe } from '../../shared/cents.pipe';
       justify-content: space-between;
       gap: 1rem;
       padding: 0.35rem 0;
-      font-size: 0.95rem;
     }
     .total {
       border-top: 1px solid var(--border);

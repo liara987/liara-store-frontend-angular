@@ -75,9 +75,7 @@ export class CartService {
 
     this.itemsSignal.update((items) =>
       items.map((item) =>
-        item.productId === productId
-          ? { ...item, quantity: Math.min(quantity, item.stock) }
-          : item,
+        item.productId === productId ? { ...item, quantity: Math.min(quantity, item.stock) } : item,
       ),
     );
   }

@@ -76,7 +76,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
   styles: `
     .kpis {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
       gap: 1rem;
       margin-bottom: 1rem;
     }
@@ -91,11 +91,11 @@ import { CentsPipe } from '../../shared/cents.pipe';
     }
     .cols {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
       gap: 1rem;
     }
     h2 {
-      font-size: 1.05rem;
+      font-size: var(--text-lead);
       margin-top: 0;
     }
     .right {
@@ -107,7 +107,6 @@ import { CentsPipe } from '../../shared/cents.pipe';
     }
     .block {
       display: block;
-      font-size: 0.8rem;
     }
   `,
 })

@@ -35,11 +35,7 @@ export class AdminService {
     return this.http.patch<Product>(`${this.base}/products/${id}`, payload);
   }
 
-  updateStock(
-    id: string,
-    operation: 'set' | 'increment',
-    quantity: number,
-  ): Observable<Product> {
+  updateStock(id: string, operation: 'set' | 'increment', quantity: number): Observable<Product> {
     return this.http.patch<Product>(`${this.base}/products/${id}/stock`, { operation, quantity });
   }
 

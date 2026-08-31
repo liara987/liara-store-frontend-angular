@@ -12,7 +12,7 @@ const POLL_INTERVAL_MS = 5000;
   imports: [RouterLink, DatePipe, CentsPipe],
   template: `
     @if (loading()) {
-      <p class="muted">Carregando pedido…</p>
+      <p class="muted" role="status">Carregando pedido…</p>
     } @else if (error()) {
       <p class="error">{{ error() }}</p>
     } @else if (order(); as current) {
@@ -22,7 +22,9 @@ const POLL_INTERVAL_MS = 5000;
             <h1>Pedido #{{ current.id.slice(-6) }}</h1>
             <p class="muted">{{ current.customer.name }}</p>
           </div>
-          <span class="badge" [class]="current.status">{{ statusLabel(current.status) }}</span>
+          <span class="badge" [class]="current.status" role="status">
+            {{ statusLabel(current.status) }}
+          </span>
         </div>
 
         @if (current.status === 'paid') {
@@ -38,7 +40,12 @@ const POLL_INTERVAL_MS = 5000;
         } @else if (current.status === 'pending' || current.status === 'processing') {
           <div class="pix">
             @if (current.payment.pix?.qrCodeImage) {
-              <img [src]="current.payment.pix?.qrCodeImage" alt="QR Code PIX" />
+              <img
+                [src]="current.payment.pix?.qrCodeImage"
+                alt="QR Code do PIX para pagamento"
+                width="320"
+                height="320"
+              />
             }
             <div>
               <h2>Pague com PIX</h2>
@@ -47,14 +54,14 @@ const POLL_INTERVAL_MS = 5000;
                   Valor a pagar: <strong>{{ current.total | cents }}</strong>
                 </p>
                 <p class="muted">
-                  Escaneie o QR Code ou use o código copia e cola e <strong>digite o valor
-                  acima</strong> no app do banco. Depois é só mostrar o comprovante para a
-                  loja confirmar.
+                  Escaneie o QR Code ou use o código copia e cola e
+                  <strong>digite o valor acima</strong> no app do banco. Depois é só mostrar o
+                  comprovante para a loja confirmar.
                 </p>
               } @else {
                 <p class="muted">
-                  Escaneie o QR Code ou use o código copia e cola. Depois mostre o
-                  comprovante para a loja confirmar o pagamento.
+                  Escaneie o QR Code ou use o código copia e cola. Depois mostre o comprovante para
+                  a loja confirmar o pagamento.
                 </p>
               }
               @if (current.payment.expiresAt) {
@@ -63,8 +70,11 @@ const POLL_INTERVAL_MS = 5000;
                 </p>
               }
               @if (current.payment.pix?.copyPaste) {
-                <textarea readonly rows="4">{{ current.payment.pix?.copyPaste }}</textarea>
-                <button class="btn" (click)="copy(current.payment.pix?.copyPaste ?? '')">
+                <label class="sr-only" for="pix-code">Código PIX copia e cola</label>
+                <textarea id="pix-code" readonly rows="4">{{
+                  current.payment.pix?.copyPaste
+                }}</textarea>
+                <button class="btn block" (click)="copy(current.payment.pix?.copyPaste ?? '')">
                   {{ copied() ? 'Código copiado!' : 'Copiar código' }}
                 </button>
               }
@@ -84,7 +94,9 @@ const POLL_INTERVAL_MS = 5000;
             }
             <tr>
               <td><strong>Total</strong></td>
-              <td class="right"><strong>{{ current.total | cents }}</strong></td>
+              <td class="right">
+                <strong>{{ current.total | cents }}</strong>
+              </td>
             </tr>
           </tbody>
         </table>
@@ -99,7 +111,7 @@ const POLL_INTERVAL_MS = 5000;
       justify-content: space-between;
       align-items: flex-start;
       flex-wrap: wrap;
-      gap: 0.75rem 1rem;
+      gap: 1rem;
     }
     .items td {
       word-break: break-word;
@@ -108,15 +120,15 @@ const POLL_INTERVAL_MS = 5000;
       width: 100%;
     }
     h1 {
-      font-size: 1.3rem;
+      font-size: var(--text-title);
       margin: 0;
     }
     h2 {
-      font-size: 1.05rem;
+      font-size: var(--text-lead);
       margin-top: 0;
     }
     .paid-box {
-      background: #e2f3e9;
+      background: var(--ok-soft);
       border-radius: 12px;
       padding: 1rem;
       margin: 1rem 0;
@@ -126,7 +138,7 @@ const POLL_INTERVAL_MS = 5000;
     }
     .pix {
       display: grid;
-      grid-template-columns: 220px minmax(0, 1fr);
+      grid-template-columns: min(220px, 45vw) minmax(0, 1fr);
       gap: 1.25rem;
       margin: 1rem 0;
       align-items: start;
@@ -137,20 +149,23 @@ const POLL_INTERVAL_MS = 5000;
       }
     }
     .amount {
-      font-size: 1.05rem;
+      font-size: var(--text-lead);
       margin: 0 0 0.5rem;
     }
     .pix img {
       width: 100%;
+      height: auto;
+      aspect-ratio: 1;
       border: 1px solid var(--border);
       border-radius: 12px;
       background: #fff;
     }
     textarea {
       font-family: monospace;
-      font-size: 0.75rem;
+      font-size: 1rem;
+      word-break: break-all;
       resize: vertical;
-      margin-bottom: 0.6rem;
+      margin-bottom: var(--gap-tap);
     }
     .right {
       text-align: right;
