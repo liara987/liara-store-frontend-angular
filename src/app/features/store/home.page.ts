@@ -74,9 +74,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
             </a>
             <p class="price">{{ product.price | cents }}</p>
             @if (product.stock > 0) {
-              <button class="btn block" (click)="add(product)">
-                Adicionar<span class="sr-only"> {{ product.name }}</span> ao carrinho
-              </button>
+              <button class="btn block" (click)="add(product)">Adicionar ao carrinho</button>
             } @else {
               <button class="btn block" disabled>Esgotado</button>
             }
