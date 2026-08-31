@@ -10,18 +10,14 @@ import { CentsPipe } from '../../shared/cents.pipe';
   imports: [RouterLink, CentsPipe],
   template: `
     <section class="hero card">
-      <h1>Acessórios de programação da Liara Store</h1>
+      <h1>Acessórios de programação</h1>
       <p class="muted">
         Escolha seus favoritos, pague por PIX e leve na hora. Sem frete, sem cadastro.
       </p>
     </section>
 
     <div class="filters">
-      <button
-        class="btn ghost small"
-        [class.active]="category() === null"
-        (click)="filterBy(null)"
-      >
+      <button class="btn ghost small" [class.active]="category() === null" (click)="filterBy(null)">
         Todos
       </button>
       @for (item of categories(); track item) {
