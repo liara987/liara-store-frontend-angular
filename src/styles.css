@@ -207,8 +207,8 @@ th {
   color: var(--muted);
 }
 
-/* Tabelas viram cartões no celular: sem scroll horizontal. */
-@media (max-width: 720px) {
+/* Tabelas viram cartões em telas estreitas: sem scroll horizontal. */
+@media (max-width: 900px) {
   .responsive-table thead {
     position: absolute;
     width: 1px;

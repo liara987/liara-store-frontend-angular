@@ -146,7 +146,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
     }
     .row {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
       gap: 0.9rem;
     }
     .form .btn {
@@ -166,7 +166,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
     .block {
       display: block;
     }
-    @media (max-width: 720px) {
+    @media (max-width: 900px) {
       .actions {
         justify-content: flex-end;
       }

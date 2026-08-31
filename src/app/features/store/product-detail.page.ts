@@ -94,7 +94,9 @@ import { CentsPipe } from '../../shared/cents.pipe';
     .crumbs a {
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       min-height: var(--tap);
+      min-width: var(--tap);
       font-weight: 600;
       color: var(--brand-dark);
       text-decoration: underline;

@@ -83,9 +83,10 @@ import { CartService } from './core/cart.service';
       padding: 0.05rem 0.45rem;
       margin-left: 0.4rem;
     }
+    /* Reserva a altura da janela para o rodape nao subir/descer enquanto os dados carregam. */
     .content {
       padding: 1.5rem 0 3rem;
-      min-height: 60vh;
+      min-height: 100svh;
     }
     .footer {
       display: flex;

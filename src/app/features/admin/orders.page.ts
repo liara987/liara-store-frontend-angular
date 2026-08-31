@@ -129,7 +129,7 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
     .block {
       display: block;
     }
-    @media (max-width: 720px) {
+    @media (max-width: 900px) {
       .actions {
         justify-content: flex-end;
       }
