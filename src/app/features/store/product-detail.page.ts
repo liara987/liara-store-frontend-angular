@@ -195,6 +195,18 @@ import { CentsPipe } from '../../shared/cents.pipe';
       flex: 1;
       max-width: 22rem;
     }
+    @media (max-width: 480px) {
+      .actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .actions input {
+        width: 100%;
+      }
+      .actions .btn {
+        width: 100%;
+      }
+    }
   `,
 })
 export class ProductDetailPage {

@@ -100,6 +100,10 @@ import { CentsPipe } from '../../shared/cents.pipe';
     }
     .right {
       text-align: right;
+      white-space: nowrap;
+    }
+    table td:first-child {
+      word-break: break-word;
     }
     .block {
       display: block;

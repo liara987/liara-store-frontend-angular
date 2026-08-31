@@ -144,6 +144,9 @@ import { CentsPipe } from '../../shared/cents.pipe';
     .form {
       margin-bottom: 1rem;
     }
+    .field {
+      margin-top: 1rem;
+    }
     .row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));

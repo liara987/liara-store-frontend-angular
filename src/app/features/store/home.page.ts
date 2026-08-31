@@ -10,7 +10,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
   imports: [RouterLink, CentsPipe],
   template: `
     <section class="hero card">
-      <h1>Acessórios de programação da Liara Store</h1>
+      <h1>Acessórios de programação</h1>
       <p class="muted">
         Escolha seus favoritos, pague por PIX e leve na hora. Sem frete, sem cadastro.
       </p>

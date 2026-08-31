@@ -62,12 +62,25 @@ a {
   margin: 0 auto;
 }
 
+@media (max-width: 480px) {
+  .container {
+    width: min(1100px, 100% - 1.5rem);
+  }
+}
+
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   padding: 1.25rem;
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1rem;
+    border-radius: 12px;
+  }
 }
 
 .btn {

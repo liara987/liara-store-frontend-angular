@@ -72,6 +72,7 @@ import { CartService } from './core/cart.service';
       font-size: var(--text-lead);
       font-weight: 800;
       color: var(--brand);
+      white-space: nowrap;
     }
     .count {
       display: inline-block;

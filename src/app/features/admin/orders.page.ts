@@ -133,6 +133,15 @@ const STATUS_LABELS: Record<OrderStatus, string> = {
       .actions {
         justify-content: flex-end;
       }
+      /* A lista de itens é longa demais para dividir a linha com o rótulo. */
+      .responsive-table td[data-label='Itens'] {
+        display: block;
+        text-align: left;
+      }
+      .responsive-table td[data-label='Itens']::before {
+        display: block;
+        margin-bottom: 0.25rem;
+      }
     }
   `,
 })
