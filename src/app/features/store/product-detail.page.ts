@@ -74,7 +74,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
       </div>
 
       <!-- CTA fixo na zona do polegar; no desktop volta ao fluxo do card. -->
-      <div class="cta-bar">
+      <div class="cta-bar card">
         <div class="cta-inner">
           <span class="cta-price">{{ item.price | cents }}</span>
           <button class="btn" [disabled]="item.stock === 0" (click)="add(item)">
@@ -175,7 +175,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
       position: sticky;
       bottom: 0;
       margin-top: 1rem;
-      padding: 0.75rem 0 calc(0.75rem + env(safe-area-inset-bottom));
+      padding: 0.75rem;
       background: color-mix(in srgb, var(--surface) 92%, transparent);
       backdrop-filter: blur(6px);
       border-top: 1px solid var(--border);
