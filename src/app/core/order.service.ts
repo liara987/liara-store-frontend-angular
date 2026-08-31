@@ -15,5 +15,4 @@ export class OrderService {
   get(id: string): Observable<Order> {
     return this.http.get<Order>(`${environment.apiUrl}/orders/${id}`);
   }
-
 }
