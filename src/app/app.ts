@@ -33,10 +33,7 @@ import { CartService } from './core/cart.service';
       <router-outlet />
     </main>
 
-    <footer class="container footer muted">
-      Liara Store — acessórios de programação ·
-      <a routerLink="/admin">Área administrativa</a>
-    </footer>
+    <footer class="container footer muted">Liara Store — acessórios de programação</footer>
   `,
   styles: `
     .logo-img {
