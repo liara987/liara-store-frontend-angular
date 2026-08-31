@@ -116,6 +116,11 @@ import { CentsPipe } from '../../shared/cents.pipe';
       .detail {
         grid-template-columns: 1fr;
       }
+
+      .cta-inner {
+        display: flex;
+        flex-direction: column;
+      }
     }
     .detail img,
     .detail .placeholder {
@@ -175,7 +180,8 @@ import { CentsPipe } from '../../shared/cents.pipe';
       position: sticky;
       bottom: 0;
       margin-top: 1rem;
-      padding: 0.75rem;
+
+      padding: 0.75rem 0 calc(0.75rem + env(safe-area-inset-bottom));
       background: color-mix(in srgb, var(--surface) 92%, transparent);
       backdrop-filter: blur(6px);
       border-top: 1px solid var(--border);
@@ -185,6 +191,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
       align-items: center;
       justify-content: space-between;
       gap: var(--gap-tap);
+      padding: 0 1rem;
     }
     .cta-price {
       font-size: var(--text-lead);
