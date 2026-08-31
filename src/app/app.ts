@@ -10,7 +10,14 @@ import { CartService } from './core/cart.service';
 
     <header class="topbar">
       <div class="container bar">
-        <a routerLink="/" class="logo">Liara Store</a>
+        <a routerLink="/" class="logo">
+          <img
+            class="logo-img"
+            src="https://res.cloudinary.com/jebe8tbc/image/upload/v1788214399/liara-store-logo.png"
+            alt=""
+          />
+          <span>Liara Store</span>
+        </a>
         <nav>
           <a routerLink="/carrinho" class="cart-link" [attr.aria-label]="cartLabel()">
             Carrinho
@@ -32,6 +39,11 @@ import { CartService } from './core/cart.service';
     </footer>
   `,
   styles: `
+    .logo-img {
+      width: 64px;
+      height: 64px;
+      margin-right: 0.5rem;
+    }
     .skip {
       position: absolute;
       left: -999px;
