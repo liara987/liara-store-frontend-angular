@@ -31,11 +31,18 @@ import { CentsPipe } from '../../shared/cents.pipe';
         <div class="row">
           <div class="field">
             <label for="price">Preço (R$)</label>
-            <input id="price" type="number" step="0.01" min="0" formControlName="price" />
+            <input
+              id="price"
+              type="number"
+              inputmode="decimal"
+              step="0.01"
+              min="0"
+              formControlName="price"
+            />
           </div>
           <div class="field">
             <label for="stock">Estoque</label>
-            <input id="stock" type="number" min="0" formControlName="stock" />
+            <input id="stock" type="number" inputmode="numeric" min="0" formControlName="stock" />
           </div>
         </div>
         <div class="field">
@@ -59,7 +66,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
       <p class="error">{{ error() }}</p>
     } @else {
       <div class="card">
-        <table>
+        <table class="responsive-table">
           <thead>
             <tr>
               <th>Produto</th>
@@ -72,34 +79,48 @@ import { CentsPipe } from '../../shared/cents.pipe';
           <tbody>
             @for (product of products(); track product.id) {
               <tr>
-                <td>
-                  {{ product.name }}
-                  <span class="muted block">{{ product.category }}</span>
+                <td data-label="Produto">
+                  <span>
+                    {{ product.name }}
+                    <span class="muted block">{{ product.category }}</span>
+                  </span>
                 </td>
-                <td>{{ product.price | cents }}</td>
-                <td>
+                <td data-label="Preço">{{ product.price | cents }}</td>
+                <td data-label="Estoque">
                   <input
                     class="stock"
                     type="number"
+                    inputmode="numeric"
                     min="0"
                     [value]="product.stock"
+                    [attr.aria-label]="'Estoque de ' + product.name"
                     (change)="setStock(product, $event)"
                   />
                 </td>
-                <td>
+                <td data-label="Status">
                   <span class="badge" [class.paid]="product.active">
                     {{ product.active ? 'Ativo' : 'Inativo' }}
                   </span>
                 </td>
-                <td class="actions">
+                <td class="actions" data-label="Ações">
                   <label class="btn ghost small upload">
-                    Imagem
-                    <input type="file" accept="image/*" multiple (change)="upload(product, $event)" hidden />
+                    Imagem<span class="sr-only"> de {{ product.name }}</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      multiple
+                      (change)="upload(product, $event)"
+                      hidden
+                    />
                   </label>
                   @if (product.active) {
-                    <button class="btn ghost small" (click)="deactivate(product)">Desativar</button>
+                    <button class="btn ghost small" (click)="deactivate(product)">
+                      Desativar<span class="sr-only"> {{ product.name }}</span>
+                    </button>
                   } @else {
-                    <button class="btn ghost small" (click)="reactivate(product)">Ativar</button>
+                    <button class="btn ghost small" (click)="reactivate(product)">
+                      Ativar<span class="sr-only"> {{ product.name }}</span>
+                    </button>
                   }
                 </td>
               </tr>
@@ -112,11 +133,13 @@ import { CentsPipe } from '../../shared/cents.pipe';
   styles: `
     .head {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
       align-items: center;
+      gap: var(--gap-tap);
     }
     h1 {
-      font-size: 1.3rem;
+      font-size: var(--text-title);
     }
     .form {
       margin-bottom: 1rem;
@@ -130,18 +153,23 @@ import { CentsPipe } from '../../shared/cents.pipe';
       margin-top: 1rem;
     }
     .stock {
-      width: 5rem;
+      width: 6rem;
     }
     .actions {
       display: flex;
-      gap: 0.4rem;
+      flex-wrap: wrap;
+      gap: var(--gap-tap);
     }
     .upload {
       cursor: pointer;
     }
     .block {
       display: block;
-      font-size: 0.8rem;
+    }
+    @media (max-width: 720px) {
+      .actions {
+        justify-content: flex-end;
+      }
     }
   `,
 })
