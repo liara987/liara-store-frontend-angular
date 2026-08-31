@@ -61,8 +61,8 @@ import { CentsPipe } from '../../shared/cents.pipe';
                 <img
                   [src]="image.url"
                   [alt]="image.alt ?? product.name"
-                  width="400"
-                  height="400"
+                  width="200"
+                  height="200"
                   [attr.loading]="$index < 2 ? 'eager' : 'lazy'"
                   [attr.fetchpriority]="$index === 0 ? 'high' : null"
                   decoding="async"

@@ -32,8 +32,8 @@ import { CentsPipe } from '../../shared/cents.pipe';
           <img
             [src]="image.url"
             [alt]="image.alt ?? item.name"
-            width="600"
-            height="600"
+            width="400"
+            height="400"
             fetchpriority="high"
             decoding="async"
           />
