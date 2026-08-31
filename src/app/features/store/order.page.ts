@@ -113,9 +113,6 @@ const POLL_INTERVAL_MS = 5000;
       flex-wrap: wrap;
       gap: 1rem;
     }
-    .items td {
-      word-break: break-word;
-    }
     .items td:first-child {
       width: 100%;
     }
