@@ -78,6 +78,16 @@ const POLL_INTERVAL_MS = 5000;
                   {{ copied() ? 'Código copiado!' : 'Copiar código' }}
                 </button>
               }
+              @if (current.payment.pix?.paymentLink; as link) {
+                <a
+                  class="btn ghost block pay-link"
+                  [href]="link"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Pagar pelo link do banco
+                </a>
+              }
             </div>
           </div>
         } @else {
@@ -112,6 +122,9 @@ const POLL_INTERVAL_MS = 5000;
       align-items: flex-start;
       flex-wrap: wrap;
       gap: 1rem;
+    }
+    .pay-link {
+      margin-top: 0.75rem;
     }
     .items td:first-child {
       width: 100%;
