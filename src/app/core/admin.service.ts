@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpParams } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
@@ -43,10 +43,14 @@ export class AdminService {
     return this.http.delete<Product>(`${this.base}/products/${id}`);
   }
 
-  uploadImages(id: string, files: FileList): Observable<Product> {
+  /** Emite eventos de progresso para alimentar a barra de upload do admin. */
+  uploadImages(id: string, files: readonly File[]): Observable<HttpEvent<Product>> {
     const form = new FormData();
-    Array.from(files).forEach((file) => form.append('images', file));
-    return this.http.post<Product>(`${this.base}/products/${id}/images`, form);
+    files.forEach((file) => form.append('images', file));
+    return this.http.post<Product>(`${this.base}/products/${id}/images`, form, {
+      reportProgress: true,
+      observe: 'events',
+    });
   }
 
   orders(status?: string): Observable<Paginated<Order>> {

@@ -3,6 +3,7 @@ import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../../core/cart.service';
+import { CustomerService } from '../../core/customer.service';
 import { OrderService } from '../../core/order.service';
 import { CentsPipe } from '../../shared/cents.pipe';
 
@@ -146,13 +147,14 @@ export class CheckoutPage {
   private readonly orders = inject(OrderService);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
+  private readonly customer = inject(CustomerService);
 
   protected readonly submitting = signal(false);
   protected readonly error = signal<string | null>(null);
 
   protected readonly form = this.fb.nonNullable.group({
-    name: ['', [Validators.required, Validators.minLength(2)]],
-    email: ['', [Validators.email]],
+    name: [this.customer.read().name, [Validators.required, Validators.minLength(2)]],
+    email: [this.customer.read().email, [Validators.email]],
   });
 
   protected submit(): void {
@@ -164,6 +166,7 @@ export class CheckoutPage {
     const { name, email } = this.form.getRawValue();
     this.submitting.set(true);
     this.error.set(null);
+    this.customer.save({ name: name.trim(), email: email.trim() });
 
     this.orders
       .create({
