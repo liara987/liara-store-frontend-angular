@@ -1,5 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
+import { Subject, catchError, debounceTime, of, switchMap } from 'rxjs';
 import { CartService } from '../../core/cart.service';
 import { Product } from '../../core/models';
 import { ProductService } from '../../core/product.service';
@@ -15,6 +17,19 @@ import { CentsPipe } from '../../shared/cents.pipe';
         Escolha seus favoritos, pague por PIX e leve na hora. Sem frete, sem cadastro.
       </p>
     </section>
+
+    <div class="search">
+      <label class="sr-only" for="busca">Buscar produtos</label>
+      <input
+        id="busca"
+        type="search"
+        placeholder="Buscar por nome ou categoria"
+        autocomplete="off"
+        enterkeyhint="search"
+        [value]="search()"
+        (input)="onSearch($event)"
+      />
+    </div>
 
     <div class="filters" role="group" aria-label="Filtrar por categoria">
       <button
@@ -51,7 +66,13 @@ import { CentsPipe } from '../../shared/cents.pipe';
     } @else if (error()) {
       <p class="error">{{ error() }}</p>
     } @else if (products().length === 0) {
-      <p class="muted">Nenhum produto disponível no momento.</p>
+      <p class="muted" role="status">
+        @if (search().trim()) {
+          Nenhum produto encontrado para “{{ search().trim() }}”.
+        } @else {
+          Nenhum produto disponível no momento.
+        }
+      </p>
     } @else {
       <div class="grid">
         @for (product of products(); track product.id) {
@@ -96,6 +117,10 @@ import { CentsPipe } from '../../shared/cents.pipe';
     }
     .hero p {
       margin: 0;
+    }
+    .search input {
+      width: 100%;
+      margin-bottom: 1rem;
     }
     .filters {
       display: flex;
@@ -162,19 +187,51 @@ export class HomePage {
   protected readonly products = signal<Product[]>([]);
   protected readonly categories = signal<string[]>([]);
   protected readonly category = signal<string | null>(null);
+  protected readonly search = signal('');
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
+
+  private readonly queries = new Subject<void>();
 
   constructor() {
     this.productService.categories().subscribe({
       next: (response) => this.categories.set(response.items),
       error: () => this.categories.set([]),
     });
+
+    this.queries
+      .pipe(
+        debounceTime(250),
+        switchMap(() =>
+          this.productService
+            .list({
+              category: this.category() ?? undefined,
+              search: this.search().trim() || undefined,
+            })
+            .pipe(
+              catchError(() => {
+                this.error.set('Não foi possível carregar os produtos. Tente novamente.');
+                return of(null);
+              }),
+            ),
+        ),
+        takeUntilDestroyed(),
+      )
+      .subscribe((response) => {
+        if (response) this.products.set(response.items);
+        this.loading.set(false);
+      });
+
     this.load();
   }
 
   protected filterBy(category: string | null): void {
     this.category.set(category);
+    this.load();
+  }
+
+  protected onSearch(event: Event): void {
+    this.search.set((event.target as HTMLInputElement).value);
     this.load();
   }
 
@@ -185,16 +242,6 @@ export class HomePage {
   private load(): void {
     this.loading.set(true);
     this.error.set(null);
-
-    this.productService.list({ category: this.category() ?? undefined }).subscribe({
-      next: (response) => {
-        this.products.set(response.items);
-        this.loading.set(false);
-      },
-      error: () => {
-        this.error.set('Não foi possível carregar os produtos. Tente novamente.');
-        this.loading.set(false);
-      },
-    });
+    this.queries.next();
   }
 }
