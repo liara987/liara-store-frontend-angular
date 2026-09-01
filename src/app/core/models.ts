@@ -51,7 +51,12 @@ export interface Order {
     status: PaymentStatus;
     amount?: number;
     expiresAt?: string;
-    pix?: { qrCodeImage?: string; copyPaste?: string; amountIncluded?: boolean };
+    pix?: {
+      qrCodeImage?: string;
+      copyPaste?: string;
+      paymentLink?: string;
+      amountIncluded?: boolean;
+    };
   };
 }
 
