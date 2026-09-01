@@ -33,7 +33,45 @@ import { CartService } from './core/cart.service';
       <router-outlet />
     </main>
 
-    <footer class="container footer muted">Liara Store — acessórios de programação</footer>
+    <footer class="container footer muted flex-col">
+      <span>Me siga nas redes sociais!</span>
+      <div class="social-icons">
+        <!-- LinkedIn -->
+        <a
+          href="https://linkedin.com/in/liara-programadora"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="LinkedIn"
+        >
+          <i class="fa-brands fa-linkedin"></i>
+        </a>
+
+        <!-- Email -->
+        <a href="mailto:987.liara@gmail.com" aria-label="Email">
+          <i class="fa-regular fa-envelope"></i>
+        </a>
+
+        <!-- Instagram -->
+        <a
+          href="https://instagram.com/liara_programadora/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Instagram"
+        >
+          <i class="fa-brands fa-instagram"></i>
+        </a>
+
+        <!-- YouTube -->
+        <a
+          href="https://youtube.com/@LiaraProgramadora"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="YouTube"
+        >
+          <i class="fa-brands fa-youtube"></i>
+        </a>
+      </div>
+    </footer>
   `,
   styles: `
     .logo-img {
@@ -100,7 +138,7 @@ import { CartService } from './core/cart.service';
     }
     .footer {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
       align-items: center;
       gap: 0.35rem;
       padding: 1.5rem 0 calc(1.5rem + env(safe-area-inset-bottom));
@@ -111,6 +149,24 @@ import { CartService } from './core/cart.service';
       min-height: var(--tap);
       font-weight: 600;
       text-decoration: underline;
+    }
+    .social-icons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      align-items: center;
+    }
+    .social-icons a {
+      color: #555; /* cor que combine com seu site */
+      font-size: 25px;
+      text-decoration: none;
+      transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+    }
+    .social-icons a:hover {
+      opacity: 0.8;
+      transform: translateY(-1px);
     }
   `,
 })
