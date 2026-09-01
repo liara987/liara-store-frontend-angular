@@ -30,15 +30,35 @@ import { CentsPipe } from '../../shared/cents.pipe';
                 <td data-label="Produto">{{ item.name }}</td>
                 <td data-label="Preço">{{ item.price | cents }}</td>
                 <td data-label="Qtd.">
-                  <input
-                    type="number"
-                    inputmode="numeric"
-                    min="1"
-                    [max]="item.stock"
-                    [value]="item.quantity"
-                    [attr.aria-label]="'Quantidade de ' + item.name"
-                    (input)="changeQuantity(item.productId, $event)"
-                  />
+                  <div class="stepper">
+                    <button
+                      class="btn ghost small step"
+                      type="button"
+                      [disabled]="item.quantity <= 1"
+                      [attr.aria-label]="'Diminuir quantidade de ' + item.name"
+                      (click)="cart.setQuantity(item.productId, item.quantity - 1)"
+                    >
+                      &minus;
+                    </button>
+                    <input
+                      type="number"
+                      inputmode="numeric"
+                      min="1"
+                      [max]="item.stock"
+                      [value]="item.quantity"
+                      [attr.aria-label]="'Quantidade de ' + item.name"
+                      (input)="changeQuantity(item.productId, $event)"
+                    />
+                    <button
+                      class="btn ghost small step"
+                      type="button"
+                      [disabled]="item.quantity >= item.stock"
+                      [attr.aria-label]="'Aumentar quantidade de ' + item.name"
+                      (click)="cart.setQuantity(item.productId, item.quantity + 1)"
+                    >
+                      +
+                    </button>
+                  </div>
                 </td>
                 <td data-label="Subtotal">{{ item.price * item.quantity | cents }}</td>
                 <td>
@@ -68,8 +88,21 @@ import { CentsPipe } from '../../shared/cents.pipe';
     h1 {
       font-size: var(--text-title);
     }
-    input {
-      width: 5.5rem;
+    .stepper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .stepper input {
+      width: 4rem;
+      text-align: center;
+    }
+    .step {
+      flex: 0 0 var(--tap);
+      min-width: var(--tap);
+      padding: 0;
+      font-size: var(--text-lead);
+      line-height: 1;
     }
     .footer-row {
       display: flex;
@@ -91,6 +124,10 @@ import { CentsPipe } from '../../shared/cents.pipe';
     @media (max-width: 720px) {
       .remove {
         width: 100%;
+      }
+      .stepper input {
+        flex: 1 1 auto;
+        width: auto;
       }
       .actions .btn {
         flex: 1 1 100%;
