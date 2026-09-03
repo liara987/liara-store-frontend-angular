@@ -711,24 +711,25 @@ export class HomePage {
 
   protected readonly banners: CarouselSlide[] = [
     {
-      imageUrl: 'https://i.pinimg.com/736x/6c/5c/5e/6c5c5e55a9f92651e984cbb016baf788.jpg',
-      alt: 'Banner moça com bottons na jaqueta',
+      imageUrl:
+        'https://res.cloudinary.com/jebe8tbc/image/upload/v1788429525/Gemini_Generated_Image_4jxlx14jxlx14jxl.jpg',
+      alt: 'Jaqueta com pins e buttons',
       title: 'Use o que você ama',
       subtitle: 'Pins e buttons pra deixar sua jaqueta com a sua cara.',
       bgColor: '#1e1e2e',
     },
     {
       imageUrl:
-        'https://images.unsplash.com/photo-1605379399642-870262d3d051?fm=jpg&q=60&w=3000&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZ3JhbWFkb3J8ZW58MHx8MHx8fDA%3D',
-      alt: 'Banner acessórios de programação',
+        'https://res.cloudinary.com/jebe8tbc/image/upload/v1788429538/Gemini_Generated_Image_741cp0741cp0741c.jpg',
+      alt: 'Setup de programador',
       title: 'Feito para quem faz acontecer',
       subtitle: 'Acessórios que combinam com o seu setup e com quem você é.',
       bgColor: '#f0db4f',
     },
     {
       imageUrl:
-        'https://png.pngtree.com/thumb_back/fh260/background/20230127/pngtree-app-developer-feeling-happy-about-coding-victory-software-developer-after-hours-programming-photo-image_49589810.jpg',
-      alt: 'Banner produtos tech exclusivos',
+        'https://res.cloudinary.com/jebe8tbc/image/upload/v1788429697/Gemini_Generated_Image_tfy33xtfy33xtfy3.jpg',
+      alt: 'Homem feliz com presente',
       title: 'Presente perfeito pra dev',
       subtitle: 'De dev pra dev — com muito estilo e bom gosto.',
       bgColor: '#5382a1',

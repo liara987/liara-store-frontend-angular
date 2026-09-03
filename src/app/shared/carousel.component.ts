@@ -1,10 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   Input,
   OnDestroy,
   OnInit,
   signal,
-  ChangeDetectionStrategy,
 } from '@angular/core';
 
 export interface CarouselSlide {
@@ -68,16 +68,26 @@ export interface CarouselSlide {
       <!-- Botão anterior -->
       <button class="carousel-btn prev" type="button" aria-label="Slide anterior" (click)="prev()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M15 18l-6-6 6-6"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
 
       <!-- Botão próximo -->
       <button class="carousel-btn next" type="button" aria-label="Próximo slide" (click)="next()">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.5"
-            stroke-linecap="round" stroke-linejoin="round"/>
+          <path
+            d="M9 18l6-6-6-6"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </button>
 
@@ -101,7 +111,6 @@ export interface CarouselSlide {
     .carousel {
       position: relative;
       overflow: hidden;
-      border-radius: var(--radius);
       background: var(--brand-soft);
       aspect-ratio: 16 / 6;
       margin-bottom: 1.5rem;
@@ -111,7 +120,6 @@ export interface CarouselSlide {
     @media (max-width: 600px) {
       .carousel {
         aspect-ratio: 16 / 9;
-        border-radius: 12px;
       }
     }
 
@@ -146,7 +154,7 @@ export interface CarouselSlide {
       z-index: 2;
       padding: 1.5rem 2rem 1.5rem 4rem;
       max-width: 55%;
-      background: linear-gradient(90deg, rgba(0,0,0,0.55) 0%, transparent 100%);
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0%, transparent 100%);
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -158,7 +166,7 @@ export interface CarouselSlide {
       .slide-content {
         max-width: 100%;
         padding: 1rem 1.25rem 1rem 4rem;
-        background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, transparent 60%);
+        background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, transparent 60%);
         justify-content: flex-end;
       }
     }
@@ -169,14 +177,14 @@ export interface CarouselSlide {
       font-size: clamp(1.1rem, 3vw, 1.8rem);
       font-weight: 800;
       line-height: 1.2;
-      text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
     }
 
     .slide-subtitle {
       margin: 0;
-      color: rgba(255,255,255,0.9);
+      color: rgba(255, 255, 255, 0.9);
       font-size: clamp(0.85rem, 2vw, 1rem);
-      text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
     }
 
     .slide-cta {
@@ -193,12 +201,14 @@ export interface CarouselSlide {
       text-decoration: none;
       border: none;
       cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
     }
 
     .slide-cta:hover {
       transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .carousel-btn {
@@ -207,7 +217,7 @@ export interface CarouselSlide {
       transform: translateY(-50%);
       z-index: 5;
       border: none;
-      background: rgba(255,255,255,0.92);
+      background: rgba(255, 255, 255, 0.92);
       color: #333;
       border-radius: 50%;
       width: 40px;
@@ -216,8 +226,10 @@ export interface CarouselSlide {
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      transition: background 0.15s ease, transform 0.15s ease;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      transition:
+        background 0.15s ease,
+        transform 0.15s ease;
       padding: 0;
     }
 
@@ -226,12 +238,22 @@ export interface CarouselSlide {
       transform: translateY(-50%) scale(1.1);
     }
 
-    .carousel-btn.prev { left: 0.75rem; }
-    .carousel-btn.next { right: 0.75rem; }
+    .carousel-btn.prev {
+      left: 0.75rem;
+    }
+    .carousel-btn.next {
+      right: 0.75rem;
+    }
 
     @media (max-width: 480px) {
-      .carousel-btn { width: 34px; height: 34px; }
-      .carousel-btn svg { width: 18px; height: 18px; }
+      .carousel-btn {
+        width: 34px;
+        height: 34px;
+      }
+      .carousel-btn svg {
+        width: 18px;
+        height: 18px;
+      }
     }
 
     .carousel-dots {
@@ -249,10 +271,12 @@ export interface CarouselSlide {
       height: 8px;
       border-radius: 50%;
       border: none;
-      background: rgba(255,255,255,0.5);
+      background: rgba(255, 255, 255, 0.5);
       cursor: pointer;
       padding: 0;
-      transition: background 0.2s ease, width 0.2s ease;
+      transition:
+        background 0.2s ease,
+        width 0.2s ease;
     }
 
     .dot.active {
