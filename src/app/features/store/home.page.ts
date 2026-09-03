@@ -715,8 +715,6 @@ export class HomePage {
       alt: 'Banner moça com bottons na jaqueta',
       title: 'Use o que você ama',
       subtitle: 'Pins e buttons pra deixar sua jaqueta com a sua cara.',
-      ctaLabel: 'Ver coleção',
-      ctaLink: '/',
       bgColor: '#1e1e2e',
     },
     {
@@ -725,8 +723,6 @@ export class HomePage {
       alt: 'Banner acessórios de programação',
       title: 'Feito para quem faz acontecer',
       subtitle: 'Acessórios que combinam com o seu setup e com quem você é.',
-      ctaLabel: 'Explorar produtos',
-      ctaLink: '/',
       bgColor: '#f0db4f',
     },
     {
@@ -735,8 +731,6 @@ export class HomePage {
       alt: 'Banner produtos tech exclusivos',
       title: 'Presente perfeito pra dev',
       subtitle: 'De dev pra dev — com muito estilo e bom gosto.',
-      ctaLabel: 'Comprar agora',
-      ctaLink: '/',
       bgColor: '#5382a1',
     },
   ];
