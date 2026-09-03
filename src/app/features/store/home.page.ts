@@ -16,6 +16,11 @@ import { CentsPipe } from '../../shared/cents.pipe';
       <p class="muted">
         Escolha seus favoritos, pague por PIX e leve na hora. Sem frete, sem cadastro.
       </p>
+      <div class="trust">
+        <span class="chip">PIX instantâneo</span>
+        <span class="chip">Sem frete</span>
+        <span class="chip">Retirada na hora</span>
+      </div>
     </section>
 
     <div class="search">
@@ -91,6 +96,7 @@ import { CentsPipe } from '../../shared/cents.pipe';
               } @else {
                 <div class="placeholder" aria-hidden="true">sem imagem</div>
               }
+              <span class="badge cat">{{ product.category }}</span>
               <h2>{{ product.name }}</h2>
             </a>
             <p class="price">{{ product.price | cents }}</p>
@@ -114,7 +120,12 @@ import { CentsPipe } from '../../shared/cents.pipe';
       line-height: 1.2;
     }
     .hero p {
-      margin: 0;
+      margin: 0 0 1rem;
+    }
+    .trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
     .search input {
       width: 100%;
@@ -136,6 +147,15 @@ import { CentsPipe } from '../../shared/cents.pipe';
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr));
       gap: 1rem;
+    }
+    .product {
+      transition:
+        transform 0.15s ease,
+        box-shadow 0.15s ease;
+    }
+    .product:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgb(43 43 43 / 12%);
     }
     .product-link {
       display: block;
@@ -165,9 +185,14 @@ import { CentsPipe } from '../../shared/cents.pipe';
       justify-content: center;
       color: var(--muted);
     }
+    .cat {
+      margin-top: 0.6rem;
+      font-size: 0.75rem;
+      padding: 0.15rem 0.55rem;
+    }
     .product h2 {
       font-size: var(--text-body);
-      margin: 0.6rem 0 0.2rem;
+      margin: 0.3rem 0 0.2rem;
     }
     .price {
       margin: 0 0 0.9rem;

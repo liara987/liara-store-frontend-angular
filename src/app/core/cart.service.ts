@@ -26,6 +26,8 @@ function restore(): CartItem[] {
 @Injectable({ providedIn: 'root' })
 export class CartService {
   private readonly itemsSignal = signal<CartItem[]>(restore());
+  /** Controla o menu lateral (drawer) de carrinho rápido; não afeta a página /carrinho. */
+  private readonly openSignal = signal(false);
 
   readonly items = this.itemsSignal.asReadonly();
   readonly count = computed(() => this.itemsSignal().reduce((sum, item) => sum + item.quantity, 0));
@@ -33,11 +35,24 @@ export class CartService {
     this.itemsSignal().reduce((sum, item) => sum + item.price * item.quantity, 0),
   );
   readonly isEmpty = computed(() => this.itemsSignal().length === 0);
+  readonly isOpen = this.openSignal.asReadonly();
 
   constructor() {
     effect(() => {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(this.itemsSignal()));
     });
+  }
+
+  open(): void {
+    this.openSignal.set(true);
+  }
+
+  close(): void {
+    this.openSignal.set(false);
+  }
+
+  toggle(): void {
+    this.openSignal.update((open) => !open);
   }
 
   add(product: Product, quantity = 1): void {

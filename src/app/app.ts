@@ -1,10 +1,11 @@
 import { Component, computed, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CartService } from './core/cart.service';
+import { CartDrawer } from './shared/cart-drawer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, RouterLink],
+  imports: [RouterOutlet, RouterLink, CartDrawer],
   template: `
     <a class="skip" href="#conteudo">Ir para o conteúdo</a>
 
@@ -19,12 +20,18 @@ import { CartService } from './core/cart.service';
           <span>Liara Store</span>
         </a>
         <nav>
-          <a routerLink="/carrinho" class="cart-link" [attr.aria-label]="cartLabel()">
+          <button
+            type="button"
+            class="cart-link"
+            [attr.aria-label]="cartLabel()"
+            (click)="cart.open()"
+          >
+            <img src="assets/cart.svg" alt="icone de carrinho" width="32" />
             Carrinho
             @if (cart.count() > 0) {
               <span class="count" aria-hidden="true">{{ cart.count() }}</span>
             }
-          </a>
+          </button>
         </nav>
       </div>
     </header>
@@ -32,6 +39,8 @@ import { CartService } from './core/cart.service';
     <main id="conteudo" class="container content">
       <router-outlet />
     </main>
+
+    <app-cart-drawer />
 
     <footer class="container footer muted flex-col">
       <span>Me siga nas redes sociais!</span>
@@ -114,6 +123,17 @@ import { CartService } from './core/cart.service';
       padding: 0 0.5rem;
       margin: 0 -0.5rem;
       font-weight: 700;
+    }
+    .cart-link {
+      border: none;
+      background: none;
+      font: inherit;
+      color: inherit;
+      cursor: pointer;
+      gap: 0.4rem;
+    }
+    .cart-icon {
+      flex-shrink: 0;
     }
     .logo {
       font-size: var(--text-lead);

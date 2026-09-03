@@ -1,5 +1,5 @@
 import { Component, inject, input, signal } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { CartService } from '../../core/cart.service';
 import { Product } from '../../core/models';
 import { ProductService } from '../../core/product.service';
@@ -221,7 +221,6 @@ export class ProductDetailPage {
 
   private readonly productService = inject(ProductService);
   private readonly cart = inject(CartService);
-  private readonly router = inject(Router);
 
   protected readonly product = signal<Product | null>(null);
   protected readonly quantity = signal(1);
@@ -246,7 +245,7 @@ export class ProductDetailPage {
 
   protected buyNow(product: Product): void {
     this.add(product);
-    void this.router.navigate(['/carrinho']);
+    this.cart.open();
   }
 
   private load(): void {
