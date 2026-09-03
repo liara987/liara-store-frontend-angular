@@ -4,6 +4,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../../core/cart.service';
 import { CustomerService } from '../../core/customer.service';
+import { LastOrderService } from '../../core/last-order.service';
 import { OrderService } from '../../core/order.service';
 import { CentsPipe } from '../../shared/cents.pipe';
 
@@ -148,6 +149,7 @@ export class CheckoutPage {
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
   private readonly customer = inject(CustomerService);
+  private readonly lastOrder = inject(LastOrderService);
 
   protected readonly submitting = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -179,6 +181,13 @@ export class CheckoutPage {
       })
       .subscribe({
         next: (order) => {
+          this.lastOrder.save({
+            id: order.id,
+            customerName: order.customer.name,
+            total: order.total,
+            createdAt: order.createdAt,
+            status: order.status,
+          });
           this.cart.clear();
           void this.router.navigate(['/pedido', order.id]);
         },

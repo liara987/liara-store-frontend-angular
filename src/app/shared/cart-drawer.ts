@@ -12,6 +12,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { CartService } from '../core/cart.service';
 import { CustomerService } from '../core/customer.service';
+import { LastOrderService } from '../core/last-order.service';
 import { OrderService } from '../core/order.service';
 import { CentsPipe } from './cents.pipe';
 import { CloseButtonComponent } from './close-button.component';
@@ -306,6 +307,7 @@ export class CartDrawer {
   protected readonly cart = inject(CartService);
   private readonly orders = inject(OrderService);
   private readonly customer = inject(CustomerService);
+  private readonly lastOrder = inject(LastOrderService);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
 
@@ -325,6 +327,13 @@ export class CartDrawer {
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) {
         queueMicrotask(() => this.closeBtn?.nativeElement.focus());
+      }
+    });
+
+    // Fecha o drawer automaticamente quando o carrinho ficar vazio.
+    effect(() => {
+      if (this.cart.isEmpty() && this.cart.isOpen()) {
+        this.cart.close();
       }
     });
   }
@@ -363,6 +372,13 @@ export class CartDrawer {
       })
       .subscribe({
         next: (order) => {
+          this.lastOrder.save({
+            id: order.id,
+            customerName: order.customer.name,
+            total: order.total,
+            createdAt: order.createdAt,
+            status: order.status,
+          });
           this.cart.clear();
           this.cart.close();
           this.submitting.set(false);

@@ -54,21 +54,29 @@ import { CentsPipe } from '../../shared/cents.pipe';
           <p>{{ item.description }}</p>
           <div class="actions">
             <div class="qty">
-              <label for="quantidade">Quantidade</label>
-              <input
-                id="quantidade"
-                type="number"
-                inputmode="numeric"
-                min="1"
-                [max]="item.stock"
-                [value]="quantity()"
-                (input)="setQuantity($event)"
-                [disabled]="item.stock === 0"
-              />
+              <span class="qty-label">Quantidade</span>
+              <div class="stepper">
+                <button
+                  class="btn ghost step"
+                  type="button"
+                  [disabled]="quantity() <= 1 || item.stock === 0"
+                  aria-label="Diminuir quantidade"
+                  (click)="decrement()"
+                >
+                  &minus;
+                </button>
+                <span class="qty-value" aria-live="polite">{{ quantity() }}</span>
+                <button
+                  class="btn ghost step"
+                  type="button"
+                  [disabled]="quantity() >= item.stock || item.stock === 0"
+                  aria-label="Aumentar quantidade"
+                  (click)="increment(item)"
+                >
+                  +
+                </button>
+              </div>
             </div>
-            <button class="btn ghost" [disabled]="item.stock === 0" (click)="buyNow(item)">
-              Comprar agora
-            </button>
           </div>
         </div>
       </div>
@@ -162,8 +170,37 @@ import { CentsPipe } from '../../shared/cents.pipe';
       margin-top: 1rem;
       flex-wrap: wrap;
     }
-    .qty input {
-      width: 6rem;
+    .qty-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--muted);
+      margin-bottom: 0.4rem;
+    }
+    .stepper {
+      display: inline-flex;
+      align-items: center;
+      gap: 0;
+      border: 1.5px solid var(--border-dark);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .step {
+      flex: 0 0 40px;
+      min-width: 40px;
+      min-height: 40px;
+      border: none;
+      border-radius: 0;
+      font-size: 1.15rem;
+      line-height: 1;
+      padding: 0;
+    }
+    .qty-value {
+      min-width: 2.5rem;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      user-select: none;
     }
     .skeleton.thumb {
       width: 100%;
@@ -232,20 +269,22 @@ export class ProductDetailPage {
     queueMicrotask(() => this.load());
   }
 
-  protected setQuantity(event: Event): void {
-    const value = Number((event.target as HTMLInputElement).value);
-    this.quantity.set(Number.isFinite(value) && value > 0 ? Math.floor(value) : 1);
+  protected increment(product: Product): void {
+    if (this.quantity() < product.stock) {
+      this.quantity.update((q) => q + 1);
+    }
+  }
+
+  protected decrement(): void {
+    if (this.quantity() > 1) {
+      this.quantity.update((q) => q - 1);
+    }
   }
 
   protected add(product: Product): void {
     this.cart.add(product, this.quantity());
     this.added.set(true);
     setTimeout(() => this.added.set(false), 2000);
-  }
-
-  protected buyNow(product: Product): void {
-    this.add(product);
-    this.cart.open();
   }
 
   private load(): void {
