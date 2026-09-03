@@ -64,11 +64,11 @@ const POLL_INTERVAL_MS = 5000;
                   a loja confirmar o pagamento.
                 </p>
               }
-              @if (current.payment.expiresAt) {
+              <!-- @if (current.payment.expiresAt) {
                 <p class="muted">
                   Expira em {{ current.payment.expiresAt | date: 'dd/MM/yyyy HH:mm' }}
                 </p>
-              }
+              } -->
               @if (current.payment.pix?.copyPaste) {
                 <label class="sr-only" for="pix-code">Código PIX copia e cola</label>
                 <textarea id="pix-code" readonly rows="4">{{
