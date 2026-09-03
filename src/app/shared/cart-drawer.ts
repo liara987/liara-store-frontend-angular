@@ -114,7 +114,8 @@ import { CloseButtonComponent } from './close-button.component';
             <input
               id="drawer-name"
               formControlName="name"
-              placeholder="Seu nome"
+              placeholder="Nome completo"
+              label="Nome completo"
               autocomplete="name"
               autocapitalize="words"
               enterkeyhint="done"
