@@ -294,6 +294,10 @@ import { CloseButtonComponent } from './close-button.component';
       .panel {
         width: 100%;
       }
+
+      .full-cart {
+        display: none;
+      }
     }
   `,
 })
