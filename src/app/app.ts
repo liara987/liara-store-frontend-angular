@@ -77,7 +77,7 @@ import { CartService } from './core/cart.service';
     .logo-img {
       width: 64px;
       height: 64px;
-      margin-right: 0.5rem;
+      margin: 0.5rem 0.5rem 0 0;
     }
     .skip {
       position: absolute;
