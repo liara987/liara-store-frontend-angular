@@ -25,10 +25,10 @@ type SortOption = 'default' | 'price_asc' | 'price_desc';
 
       <!-- Trust strip dentro da faixa brand -->
       <div class="trust-row" role="list">
-        <div class="trust-item" role="listitem">⚡ {{ t().trustPix }}</div>
-        <div class="trust-item" role="listitem">🚫 {{ t().trustNoShipping }}</div>
-        <div class="trust-item" role="listitem">📦 {{ t().trustPickup }}</div>
-        <div class="trust-item" role="listitem">🛡️ {{ t().trustSafe }}</div>
+        <div class="trust-item" role="listitem">{{ t().trustPix }}</div>
+        <div class="trust-item" role="listitem">{{ t().trustNoShipping }}</div>
+        <div class="trust-item" role="listitem">{{ t().trustPickup }}</div>
+        <div class="trust-item" role="listitem">{{ t().trustSafe }}</div>
       </div>
     </div>
 
@@ -194,16 +194,40 @@ type SortOption = 'default' | 'price_asc' | 'price_desc';
               <h2>{{ product.name }}</h2>
             </a>
             <p class="price">{{ product.price | cents }}</p>
+
             @if (product.stock > 0) {
               <button
-                class="btn block"
+                type="button"
+                class="fab-cart"
+                [class.added]="addedId() === product.id"
                 (click)="add(product)"
                 [attr.aria-label]="t().addToCart + ': ' + product.name"
               >
-                {{ t().addToCart }}
+                @if (addedId() === product.id) {
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+                    <path
+                      d="M4 12.5l5 5L20 7"
+                      stroke="currentColor"
+                      stroke-width="2.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                } @else {
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+                    <circle cx="9" cy="20" r="1.4" fill="currentColor" />
+                    <circle cx="17" cy="20" r="1.4" fill="currentColor" />
+                    <path
+                      d="M2.5 3h2l1.8 10.2a2 2 0 0 0 2 1.65h7.4a2 2 0 0 0 1.96-1.6L19.4 7H5.1"
+                      stroke="currentColor"
+                      stroke-width="1.8"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                  <span class="fab-plus" aria-hidden="true">+</span>
+                }
               </button>
-            } @else {
-              <button class="btn block" disabled>{{ t().outOfStock }}</button>
             }
           </article>
         }
@@ -460,6 +484,7 @@ type SortOption = 'default' | 'price_asc' | 'price_desc';
 
     /* ===== PRODUCT CARD ===== */
     .product {
+      position: relative; /* âncora para o FAB de adicionar ao carrinho */
       display: flex;
       flex-direction: column;
       transition:
@@ -537,6 +562,69 @@ type SortOption = 'default' | 'price_asc' | 'price_desc';
       font-size: var(--text-lead);
       font-weight: 700;
       color: var(--brand-dark);
+    }
+
+    /* ===== FAB "ADICIONAR AO CARRINHO" ===== */
+    .fab-cart {
+      position: absolute;
+      bottom: 0.5rem;
+      right: 0.5rem;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      border: none;
+      background: var(--brand);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 2;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+      transition:
+        transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+        background-color 0.2s ease,
+        box-shadow 0.15s ease;
+    }
+    .fab-cart:hover {
+      transform: scale(1.08);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.24);
+    }
+    .fab-cart:active {
+      transform: scale(0.9);
+    }
+    .fab-plus {
+      position: absolute;
+      bottom: -2px;
+      right: -2px;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #fff;
+      color: var(--brand-dark);
+      font-size: 0.7rem;
+      font-weight: 800;
+      line-height: 16px;
+      text-align: center;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25);
+    }
+    .fab-cart.added {
+      background: var(--ok, #16a34a);
+      animation: fab-pop 0.45s ease;
+    }
+    @keyframes fab-pop {
+      0% {
+        transform: scale(1);
+      }
+      35% {
+        transform: scale(1.3);
+      }
+      60% {
+        transform: scale(0.9);
+      }
+      100% {
+        transform: scale(1);
+      }
     }
 
     /* ===== SKELETON ===== */
@@ -662,6 +750,9 @@ export class HomePage {
   protected readonly loading = signal(true);
   protected readonly error = signal<string | null>(null);
   protected readonly lastOrderData = signal(this.lastOrderSvc.read());
+
+  /** Id do produto recém adicionado, usado para o feedback visual do FAB. */
+  protected readonly addedId = signal<string | null>(null);
 
   /** Produtos ordenados: por preço se selecionado, sempre com esgotados no final. */
   protected readonly sortedProducts = computed(() => {
@@ -794,6 +885,10 @@ export class HomePage {
 
   protected add(product: Product): void {
     this.cart.add(product);
+    this.addedId.set(product.id);
+    setTimeout(() => {
+      if (this.addedId() === product.id) this.addedId.set(null);
+    }, 700);
   }
 
   protected dismissLastOrder(): void {
