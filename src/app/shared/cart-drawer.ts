@@ -43,7 +43,7 @@ import { CloseButtonComponent } from './close-button.component';
     >
       <div class="head">
         <h2>Carrinho</h2>
-        <app-close-button (click)="cart.close()" />
+        <app-close-button #closeBtn label="Fechar carrinho" (closed)="cart.close()" />
       </div>
 
       @if (cart.isEmpty()) {
@@ -136,9 +136,9 @@ import { CloseButtonComponent } from './close-button.component';
             </button>
           </form>
 
-          <a routerLink="/carrinho" class="full-cart" (click)="cart.close()"
-            >Ou continue no carrinho completo</a
-          >
+          <a routerLink="/carrinho" class="full-cart" (click)="cart.close()">
+            Ou continue no carrinho completo
+          </a>
         </div>
       }
     </aside>
@@ -166,7 +166,7 @@ import { CloseButtonComponent } from './close-button.component';
     }
     .panel {
       position: fixed;
-      top: 0;
+      top: 6%;
       right: 0;
       bottom: 0;
       width: min(380px, 100%);
@@ -311,7 +311,7 @@ export class CartDrawer {
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
 
-  @ViewChild('closeBtn') private readonly closeBtn?: ElementRef<HTMLButtonElement>;
+  @ViewChild('closeBtn', { read: ElementRef }) private readonly closeBtn?: ElementRef<HTMLElement>;
 
   protected readonly submitting = signal(false);
   protected readonly error = signal<string | null>(null);
@@ -326,7 +326,7 @@ export class CartDrawer {
       const open = this.cart.isOpen();
       document.body.style.overflow = open ? 'hidden' : '';
       if (open) {
-        queueMicrotask(() => this.closeBtn?.nativeElement.focus());
+        queueMicrotask(() => this.closeBtn?.nativeElement.querySelector('button')?.focus());
       }
     });
 
